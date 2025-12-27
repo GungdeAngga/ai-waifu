@@ -5,6 +5,7 @@ from elevenlabs import generate, save, set_api_key, voices
 import sounddevice as sd
 import soundfile as sf
 import requests
+import re
 
 from dotenv import load_dotenv
 from os import getenv, path
@@ -196,6 +197,9 @@ class Waifu:
             temperature=temperature, 
         )
         response = response.choices[0].message["content"]
+        response = re.sub(r'\([^)]*\)', '', response).strip()
+
+        self.__add_message('assistant', response)
 
         self.__add_message('assistant', response)
         self.__update_message_history()

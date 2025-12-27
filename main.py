@@ -13,7 +13,7 @@ def main():
                     personality_file = None,
 
                     tts_service='voicevox', 
-                    output_device=10,
+                    output_device=17, #5, 17 for pc 10 for handheld
                     tts_voice=3,
                     tts_model = None
                     )
