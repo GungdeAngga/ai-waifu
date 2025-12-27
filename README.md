@@ -49,9 +49,10 @@ To run this project, you need:
       <summary> .env template</summary>
       
       ```shell
-      OPENAI_API_KEY='YOUR_OPEN_AI_KEY'
-      OPENAI_API_BASE='http://localhost:1234/v1'
-      ELEVENLABS_API_KEY='YOUR_ELEVENLABS_KEY'
+      OPENAI_API_KEY=lm-studio
+      OPENAI_API_BASE=http://localhost:1234/v1
+      ELEVENLABS_API_KEY=YOUR_ELEVENLABS_KEY
+      VOICEVOX_URL=http://localhost:50021
       ```
     </details>
     
