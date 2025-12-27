@@ -14,7 +14,7 @@ def main():
 
                     tts_service='voicevox', 
                     output_device=25, #CABLE Input (VB-Audio Virtual Cable), Windows DirectSound
-                    tts_voice=3,
+                    tts_voice=8,
                     tts_model = None
                     )
 
