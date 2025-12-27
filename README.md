@@ -1,14 +1,4 @@
-<h1 align="center"> AI Waifu (VTuber) </h1>
-
-<div align="center">
-  
-<a href="/LICENSE">![GitHub](https://img.shields.io/github/license/JarikDem-Bot/ai-waifu-test)</a>
-<a href="">![GitHub top language](https://img.shields.io/github/languages/top/JarikDem-Bot/ai-waifu-test)</a>
-<a href="">![Static Badge](https://img.shields.io/badge/Anime%20-%20AI%20waifu%20-%20lightpink)</a>
-
-</div>
-
-**Anime AI Waifu** is an AI powered voice assistant with VTuber's model, that combines the charm of anime characters with cutting-edge technologies. This project is meant to create an engaging experience where you can interact with desired character in real-time without powerful hardware.
+<h1 align="center"> AI Waifu </h1>
 
 
 ## Features
@@ -18,25 +8,8 @@
     - Google sr - free speech recognition alternative.
     - Console - if you don't want use microphone just type prompts with your keyboard.
 
-- 🤖 **AI Chatbot Integration:** Conversations are powered by an AI chatbot, ensuring engaging and dynamic interactions.
-    - Openai's *'gpt-3.5-turbo'* or any other available model.
-    - File with personality and behaviour description.
-    - Remembers previous messages.
-
-- 📢 **Text-to-Speech:** Hear your AI waifu's responses as she speaks back to you, creating an immersive experience.
-    - Google tts - free and simple solution.
-    - ElevenLabs - amazing results, tons of voices.
-    - Console - get text responses in your console (but VTube model will be just idle).
-
 - 🌐 **Integration with VTube Studio:** Seamlessly connect your AI waifu to VTube Studio for an even more lifelike and visually engaging interaction.
     - Lipsync while talking.
-
-
-## Showcase
-
-[![Video demonstration](https://i.ibb.co/zm42TCq/2023-08-23-104833.png)](https://youtu.be/e8sF09jf_DA)
-
-*Demonstration in real time without cutouts or speed up. This is real delay in answers.
 
 ## Installation
 
@@ -96,6 +69,7 @@ To run this project, you need:
           - `"google"` - free Google's tts, voice feels very "robotic".
           - `"elevenlabs"` - ElevenLabs tts with good quality; paid, requires ElevenLabs API key.
           - `"console"` - output will be printed in console (free).
+          - `"voicevox"` - download voicevox engine [here](https://github.com/VOICEVOX/voicevox_engine/releases) for japanese voice
           - `None` or unspecified - default value is `"google"`.
       - `output_device` - (int) output device ID or (str) output device name substring. If VB-Cable is used, you need to find device, that will start with `CABLE Input (VB-Audio Virtual` using `sd.query_devices()` command. 
       - `tts_voice` (str) - ElevenLabs voice name. Default value is `"Elli"`.
@@ -114,8 +88,3 @@ To run this project, you need:
 > </picture><br>
 >
 > Depending on the selected input mode, program may send all recorded sounds or other data to the 3-rd parties such as: Google (stt, tts), OpenAI (stt, text generation), ElevenLabs (tts).
-
-
-## License
-
-[MIT](/LICENSE)
