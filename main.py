@@ -13,8 +13,8 @@ def main():
                     personality_file = None,
 
                     tts_service='voicevox', 
-                    output_device=12,
-                    tts_voice='3',
+                    output_device=10,
+                    tts_voice=3,
                     tts_model = None
                     )
 

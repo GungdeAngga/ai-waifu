@@ -208,7 +208,7 @@ class Waifu:
     def __load_chatbot_data(self, file_name:str = None) -> None:
         file_name = self.chatbot_personality_file if file_name is None else file_name
 
-        with open(file_name, 'r') as f:
+        with open(file_name, 'r', encoding='utf-8') as f:
             personality = f.read()
         self.context = [{'role': 'system', 'content': personality}]
 
