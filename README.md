@@ -8,9 +8,6 @@
     - Google sr - free speech recognition alternative.
     - Console - if you don't want use microphone just type prompts with your keyboard.
 
-- 🌐 **Integration with VTube Studio:** Seamlessly connect your AI waifu to VTube Studio for an even more lifelike and visually engaging interaction.
-    - Lipsync while talking.
-
 ## Installation
 
 To run this project, you need:
