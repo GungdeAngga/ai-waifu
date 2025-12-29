@@ -80,7 +80,7 @@ class Waifu:
         elif self.chatbot_personality_file is None:
             self.chatbot_personality_file = 'personality.txt'
 
-    def update_tts(self, service:str = 'google', output_device = None, voice:str = None, model:str = None) -> None:
+    def update_tts(self, service:str = 'google', output_device = None, voice = None, model:str = None) -> None:
         if service:
             self.tts_service = service
         elif self.tts_service is None:
@@ -88,7 +88,7 @@ class Waifu:
 
         set_api_key(getenv('ELEVENLABS_API_KEY'))
 
-        if voice:
+        if voice is not None:  # Changed from 'if voice:' to handle voice=0 correctly
             self.tts_voice = voice
         elif self.tts_voice is None:
             self.tts_voice = 'Elli'
@@ -247,13 +247,25 @@ class Waifu:
         # COEIROINK uses /v1/predict endpoint instead of /audio_query and /synthesis
         # Check if we're using COEIROINK (port 50032) or VOICEVOX (port 50021)
         if ':50032' in voicevox_url:
-            # COEIROINK API
-            params = {
+            # COEIROINK API - uses JSON body, not query params
+            payload = {
                 'text': text,
                 'speakerUuid': '3c37646f-3881-5374-2a83-149267990abc',  # Tsukuyomi-chan UUID
-                'styleId': speaker_id
+                'styleId': speaker_id,
+                'prosodyDetail': [],
+                'speedScale': 1.0,
+                'volumeScale': 1.0,
+                'pitchScale': 0.0,
+                'intonationScale': 1.0,
+                'prePhonemeLength': 0.1,
+                'postPhonemeLength': 0.1,
+                'outputSamplingRate': 24000
             }
-            response = requests.post(f"{voicevox_url}/v1/predict", params=params)
+            response = requests.post(
+                f"{voicevox_url}/v1/predict",
+                json=payload,
+                headers={'Content-Type': 'application/json'}
+            )
             response.raise_for_status()
             with open(filename, 'wb') as f:
                 f.write(response.content)
