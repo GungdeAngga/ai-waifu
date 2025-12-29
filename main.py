@@ -12,9 +12,9 @@ def main():
                     chatbot_temperature = None,
                     personality_file = None,
 
-                    tts_service='voicevox', 
-                    output_device=25, #CABLE Input (VB-Audio Virtual Cable), Windows DirectSound
-                    tts_voice=8, # 春日部つむぎ voice
+                    tts_service='voicevox',
+                    output_device=21, #CABLE Input (VB-Audio Virtual Cable), Windows DirectSound
+                    tts_voice=0, # つくよみちゃん (Tsukuyomi-chan) - れいせい (Calm) - COEIROINK voice
                     tts_model = None
                     )
 

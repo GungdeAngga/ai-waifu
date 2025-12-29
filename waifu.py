@@ -243,13 +243,29 @@ class Waifu:
 
     def __voicevox_generate(self, text:str, speaker_id:int=1, filename:str='output.wav'):
         voicevox_url = getenv("VOICEVOX_URL", "http://localhost:50021")
-        params = {'text': text, 'speaker': speaker_id}
-        query = requests.post(f"{voicevox_url}/audio_query", params=params)
-        query.raise_for_status()
-        synthesis = requests.post(f"{voicevox_url}/synthesis", params={'speaker': speaker_id}, json=query.json())
-        synthesis.raise_for_status()
-        with open(filename, 'wb') as f:
-            f.write(synthesis.content)
+
+        # COEIROINK uses /v1/predict endpoint instead of /audio_query and /synthesis
+        # Check if we're using COEIROINK (port 50032) or VOICEVOX (port 50021)
+        if ':50032' in voicevox_url:
+            # COEIROINK API
+            params = {
+                'text': text,
+                'speakerUuid': '3c37646f-3881-5374-2a83-149267990abc',  # Tsukuyomi-chan UUID
+                'styleId': speaker_id
+            }
+            response = requests.post(f"{voicevox_url}/v1/predict", params=params)
+            response.raise_for_status()
+            with open(filename, 'wb') as f:
+                f.write(response.content)
+        else:
+            # VOICEVOX API (original)
+            params = {'text': text, 'speaker': speaker_id}
+            query = requests.post(f"{voicevox_url}/audio_query", params=params)
+            query.raise_for_status()
+            synthesis = requests.post(f"{voicevox_url}/synthesis", params={'speaker': speaker_id}, json=query.json())
+            synthesis.raise_for_status()
+            with open(filename, 'wb') as f:
+                f.write(synthesis.content)
 
     def __recognise_speech(self, service:str, duration:float) -> str:
         with self.mic as source:
