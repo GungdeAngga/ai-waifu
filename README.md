@@ -22,7 +22,14 @@ To run this project, you need:
       OPENAI_API_KEY=lm-studio
       OPENAI_API_BASE=http://localhost:1234/v1
       ELEVENLABS_API_KEY=YOUR_ELEVENLABS_KEY
+
+      # Voice Engine: Choose "coeiroink" or "voicevox"
+      TTS_ENGINE=coeiroink
       VOICEVOX_URL=http://localhost:50021
+      COEIROINK_URL=http://localhost:50032
+
+      # COEIROINK Speaker UUID (get from list_coeiroink_voices.py)
+      COEIROINK_SPEAKER_UUID=3c37646f-3881-5374-2a83-149267990abc
       ```
     </details>
     
