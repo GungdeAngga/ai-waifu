@@ -242,42 +242,52 @@ class Waifu:
         save(audio, filename)
 
     def __voicevox_generate(self, text:str, speaker_id:int=1, filename:str='output.wav'):
+        # Check TTS_ENGINE env variable to determine which engine to use
+        tts_engine = getenv("TTS_ENGINE", "voicevox").lower()
+
+        if tts_engine == "coeiroink":
+            self.__coeiroink_generate(text, speaker_id, filename)
+        else:
+            self.__voicevox_api_generate(text, speaker_id, filename)
+
+    def __coeiroink_generate(self, text:str, speaker_id:int=1, filename:str='output.wav'):
+        """Generate audio using COEIROINK API"""
+        coeiroink_url = getenv("COEIROINK_URL", "http://localhost:50032")
+        speaker_uuid = getenv("COEIROINK_SPEAKER_UUID", "3c37646f-3881-5374-2a83-149267990abc")
+
+        payload = {
+            'text': text,
+            'speakerUuid': speaker_uuid,
+            'styleId': speaker_id,
+            'prosodyDetail': [],
+            'speedScale': 1.0,
+            'volumeScale': 1.0,
+            'pitchScale': 0.0,
+            'intonationScale': 1.0,
+            'prePhonemeLength': 0.1,
+            'postPhonemeLength': 0.1,
+            'outputSamplingRate': 24000
+        }
+        response = requests.post(
+            f"{coeiroink_url}/v1/predict",
+            json=payload,
+            headers={'Content-Type': 'application/json'}
+        )
+        response.raise_for_status()
+        with open(filename, 'wb') as f:
+            f.write(response.content)
+
+    def __voicevox_api_generate(self, text:str, speaker_id:int=1, filename:str='output.wav'):
+        """Generate audio using VOICEVOX API"""
         voicevox_url = getenv("VOICEVOX_URL", "http://localhost:50021")
 
-        # COEIROINK uses /v1/predict endpoint instead of /audio_query and /synthesis
-        # Check if we're using COEIROINK (port 50032) or VOICEVOX (port 50021)
-        if ':50032' in voicevox_url:
-            # COEIROINK API - uses JSON body, not query params
-            payload = {
-                'text': text,
-                'speakerUuid': '3c37646f-3881-5374-2a83-149267990abc',  # Tsukuyomi-chan UUID
-                'styleId': speaker_id,
-                'prosodyDetail': [],
-                'speedScale': 1.0,
-                'volumeScale': 1.0,
-                'pitchScale': 0.0,
-                'intonationScale': 1.0,
-                'prePhonemeLength': 0.1,
-                'postPhonemeLength': 0.1,
-                'outputSamplingRate': 24000
-            }
-            response = requests.post(
-                f"{voicevox_url}/v1/predict",
-                json=payload,
-                headers={'Content-Type': 'application/json'}
-            )
-            response.raise_for_status()
-            with open(filename, 'wb') as f:
-                f.write(response.content)
-        else:
-            # VOICEVOX API (original)
-            params = {'text': text, 'speaker': speaker_id}
-            query = requests.post(f"{voicevox_url}/audio_query", params=params)
-            query.raise_for_status()
-            synthesis = requests.post(f"{voicevox_url}/synthesis", params={'speaker': speaker_id}, json=query.json())
-            synthesis.raise_for_status()
-            with open(filename, 'wb') as f:
-                f.write(synthesis.content)
+        params = {'text': text, 'speaker': speaker_id}
+        query = requests.post(f"{voicevox_url}/audio_query", params=params)
+        query.raise_for_status()
+        synthesis = requests.post(f"{voicevox_url}/synthesis", params={'speaker': speaker_id}, json=query.json())
+        synthesis.raise_for_status()
+        with open(filename, 'wb') as f:
+            f.write(synthesis.content)
 
     def __recognise_speech(self, service:str, duration:float) -> str:
         with self.mic as source:
